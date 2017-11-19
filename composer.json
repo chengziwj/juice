@@ -1,0 +1,14 @@
+{
+    "name": "cz/juice",
+    "description": "php utils class",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "cheng zi",
+            "email": "chengziwj@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
