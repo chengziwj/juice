@@ -1,5 +1,6 @@
 <?php
-namespace Utils;
+namespace Juice\Utils;
+
 class StringUtils
 {
     public static function show(){

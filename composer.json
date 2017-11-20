@@ -9,6 +9,11 @@
             "email": "chengziwj@gmail.com"
         }
     ],
+     "autoload": {
+         "psr-4": {
+             "Juice\\": "src"
+         }
+     },
     "minimum-stability": "stable",
     "require": {}
 }
