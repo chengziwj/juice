@@ -6,13 +6,13 @@
  * Time: 10:42
  */
 
-namespace Juice\helpers;
+namespace juice\helpers;
 
 
 class NetHelper
 {
     public static function getClientIp()
     {
-        
+
     }
 }
