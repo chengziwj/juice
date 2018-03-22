@@ -22,7 +22,7 @@ class DateTimeHelper
     }
 
     /**
-     * 
+     *
      * @param $time
      * @return int
      */
