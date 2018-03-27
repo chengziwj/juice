@@ -58,13 +58,29 @@ class DateTimeHelper
     }
 
     /**
-     * 星期开始时间
+     * 获取对应星期开始时间戳
      * @param $time
      * @return false|int
      */
     public static function startOfWeek($time)
     {
-        return strtotime('midnight', strtotime('this week', $time));
+        return self::startOfDay(strtotime('this week', $time));
+    }
+
+    /**
+     * 获取对应星期结束时间戳
+     * @param $time
+     * @return false|int
+     */
+    public static function endOfWeek($time)
+    {
+        $w = date('w',$time);
+        if ($w == 0){
+            return self::endOfDay($time);
+        }else{
+            return self::endOfDay(strtotime('next sunday', $time));
+        }
+
     }
 
     /**
@@ -74,6 +90,16 @@ class DateTimeHelper
      */
     public static function startOfMonth($time)
     {
-        return strtotime('midnight', strtotime('first day of this month', $time));
+        return self::startOfDay(strtotime('first day of this month', $time));
+    }
+
+    /**
+     * 获取对应月份最后一秒时间戳
+     * @param $time
+     * @return false|int
+     */
+    public static function endOfMonth($time)
+    {
+        return self::endOfDay(strtotime('last day of this month', $time));
     }
 }
