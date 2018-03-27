@@ -12,6 +12,11 @@ namespace juice\helpers;
 class DateTimeHelper
 {
 
+    /**
+     * 格式化时间戳 年-月-日
+     * @param $timestamp
+     * @return false|string
+     */
     public static function short($timestamp)
     {
         return self::format($timestamp, 'Y-m-d');
@@ -33,7 +38,7 @@ class DateTimeHelper
     }
 
     /**
-     *
+     * 获取对应天开始时间戳
      * @param $time
      * @return int
      */
@@ -43,12 +48,32 @@ class DateTimeHelper
     }
 
     /**
-     *
+     * 获取对应天结束时间戳
      * @param $time
      * @return int
      */
     public static function endOfDay($time)
     {
         return strtotime("tomorrow", $time) - 1;
+    }
+
+    /**
+     * 星期开始时间
+     * @param $time
+     * @return false|int
+     */
+    public static function startOfWeek($time)
+    {
+        return strtotime('midnight', strtotime('this week', $time));
+    }
+
+    /**
+     * 获取对应月份开始时间戳
+     * @param $time
+     * @return false|int
+     */
+    public static function startOfMonth($time)
+    {
+        return strtotime('midnight', strtotime('first day of this month', $time));
     }
 }
