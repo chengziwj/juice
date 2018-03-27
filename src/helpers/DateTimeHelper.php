@@ -11,14 +11,25 @@ namespace juice\helpers;
 
 class DateTimeHelper
 {
+
     public static function short($timestamp)
     {
         return self::format($timestamp, 'Y-m-d');
     }
 
+    /**
+     * 格式化时间戳
+     * @param $timestamp
+     * @param string $format
+     * @return false|string
+     */
     public static function format($timestamp, $format = 'Y-m-d H:i:s')
     {
-        return date($format, $timestamp);
+        if ($timestamp > 0) {
+            return date($format, $timestamp);
+        } else {
+            return '';
+        }
     }
 
     /**
