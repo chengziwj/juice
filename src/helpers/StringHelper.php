@@ -48,7 +48,11 @@ class StringHelper
             return $head . self::initPadString($length, $padString);
         } else {
             $length = floor($strLen / 2);
-            return self::replaceTail($str, $length, $padString, $encoding);
+            if ($length > 0) {
+                return self::replaceTail($str, $length, $padString, $encoding);
+            } else {
+                return $str;
+            }
         }
     }
 
@@ -68,17 +72,72 @@ class StringHelper
             return self::initPadString($length, $padString) . $tail;
         } else {
             $length = floor($strLen / 2);
-            return self::replaceHead($str, $length, $padString, $encoding);
+            if ($length > 0) {
+                return self::replaceHead($str, $length, $padString, $encoding);
+            } else {
+                return $str;
+            }
         }
     }
 
-    public static function replaceMiddle($str, $headLen,$tailLen, $padString = '*', $encoding = 'UTF-8')
+    /**
+     * 替换字符串中间部分 例如：中英文混合 替换开头两个字符  中英**合
+     * @param $str
+     * @param int $headLen 头部保留长度
+     * @param int $tailLen 尾部保留长度
+     * @param string $padString
+     * @param string $encoding
+     * @return mixed
+     */
+    public static function replaceMiddle($str, $headLen, $tailLen, $padString = '*', $encoding = 'UTF-8')
     {
         $strLen = mb_strlen($str, $encoding);
-
-        
+        if ($strLen == 1) {
+            return $str;
+        }
+        $retain = $headLen + $tailLen;//总的保留字符串长度
+        if ($headLen >= $strLen || $tailLen >= $strLen || $retain == $strLen) {
+            $headLen = $tailLen = floor($strLen / 2) - 1;
+            return self::replaceMiddle($str, $headLen, $tailLen, $padString, $encoding);
+        } elseif ($retain > $strLen) {
+            if ($headLen > $tailLen) {
+                $tailLen = 0;
+            } elseif ($headLen < $tailLen) {
+                $headLen = 0;
+            } else {
+                $headLen = $tailLen = floor($strLen / 2) - 1;
+            }
+            return self::replaceMiddle($str, $headLen, $tailLen, $padString, $encoding);
+        } else {
+            $head = mb_substr($str, 0, $headLen, $encoding);
+            $tail = mb_substr($str, $strLen - $tailLen, $tailLen, $encoding);
+//            var_dump($head,$tail,$headLen,$tailLen);exit;
+            return $head . self::initPadString($strLen - $retain, $padString) . $tail;
+        }
     }
 
+    /**
+     * 隐藏邮箱地址
+     * @param $email
+     * @param $headLen
+     * @param $tailLen
+     * @param string $padString
+     * @param string $encoding
+     * @return string
+     */
+    public static function replaceEmail($email, $headLen, $tailLen, $padString = '*', $encoding = 'UTF-8')
+    {
+        $index = mb_strpos($email, '@', 0,$encoding);
+        $head = mb_substr($email, 0, $index);
+        $tail = mb_substr($email, $index);
+        return self::replaceMiddle($head, $headLen, $tailLen, $padString, $encoding) . $tail;
+    }
+
+    /**
+     * @param $length
+     * @param string $padString
+     * @return string
+     */
     private static function initPadString($length, $padString = '')
     {
         $str = '';
@@ -86,13 +145,6 @@ class StringHelper
             $str .= $padString;
         }
         return $str;
-    }
-
-    public static function replaceEmail($email, $length, $padString = '*', $encoding = 'UTF-8')
-    {
-        $strLen = mb_strlen($email, $encoding);
-        $index = mb_strpos($email, '@', $encoding);
-        $tail = mb_substr($email, $index);
     }
 
     /**
