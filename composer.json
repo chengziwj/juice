@@ -15,9 +15,9 @@
          }
      },
     "minimum-stability": "stable",
-    "require": {
-      "phpunit/phpunit": "^7"
-    },
+//    "require": {
+//      "phpunit/phpunit": "^7"
+//    },
     "repositories": {
         "packagist": {
             "type": "composer",
